@@ -1,0 +1,16 @@
+﻿<local:MainViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Nullfactory.BookmarkSync.ViewModel" >
+
+    <local:MainViewModel.DeviceBookmarks>
+        <local:ItemViewModel Title="http---msdn.microsoft.com" Url="http://www.google.com"/>
+        <local:ItemViewModel Title="13 Strategies To Jumpstart Your Productivity - Stepcase Lifehack" Url="http://www.lifehack.org/articles/articles/productivity/13-strategies-to-jumpstart-your-productivity.html" />
+        <local:ItemViewModel Title="Check which Update Rollup version is installed on your CRM environments Dynamo with Dynamics CRM" Url="http://crmdynamo.com/2010/03/check-which-update-rollup-version-is-installed-on-your-crm-environments/"/>
+        <local:ItemViewModel Title="How to: Programmatically Configure a WCF Endpoint" Url="http://msdn.microsoft.com/en-us/library/ff647110.aspx "/>
+        <local:ItemViewModel Title="CallbackDebugBehavior Class (System.ServiceModel.Description)" Url="http://msdn.microsoft.com/en-us/library/system.servicemodel.description.callbackdebugbehavior.aspx "/>
+        <local:ItemViewModel Title="CallbackDebugBehavior Members (System.ServiceModel.Description)" Url="http://msdn.microsoft.com/en-us/library/system.servicemodel.description.callbackdebugbehavior_members(VS.85).aspx"/>
+        <local:ItemViewModel Title="IEndpointBehavior Interface (System.ServiceModel.Description)" Url="http://msdn.microsoft.com/en-us/library/system.servicemodel.description.iendpointbehavior.aspx"/>
+    </local:MainViewModel.DeviceBookmarks>
+    
+</local:MainViewModel>

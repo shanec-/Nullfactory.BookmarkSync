@@ -1,0 +1,112 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:bar="clr-namespace:BindableApplicationBar;assembly=BindableApplicationBar"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:null="clr-namespace:Nullfactory.PhoneClient.Helpers"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+    xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP71" 
+    xmlns:my="clr-namespace:Microsoft.Live.Controls;assembly=Microsoft.Live.Controls" 
+    x:Class="Nullfactory.BookmarkSync.MainPage"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800" 
+    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
+    toolkit:TiltEffect.IsTiltEnabled="True">
+
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+    	<i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <cmd:EventToCommand Command="{Binding PerformInitializationCommand, Mode=OneTime}"/>
+    		</i:EventTrigger>
+    	</i:Interaction.Triggers>
+        <toolkit:PerformanceProgressBar VerticalAlignment="Top" x:Name="PerformanceProgressBar" IsIndeterminate="{Binding IsSyncInProgress}"/>
+        
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <StackPanel>
+                <Border Margin="9,0,0,0" Height="40" Background="{StaticResource PhoneForegroundBrush}">
+                    <Border.OpacityMask>
+                        <ImageBrush ImageSource="/Nullfactory.BookmarkSync;component/Images/small_logo_white.png" Stretch="None" AlignmentX="Left" />
+                    </Border.OpacityMask>
+                </Border>
+                <TextBlock x:Name="PageTitle" Text="favorites" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0">
+            <ListBox ItemsSource="{Binding DeviceBookmarks}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="0,0,0,17">
+                            <toolkit:ContextMenuService.ContextMenu>
+                                <toolkit:ContextMenu>
+                                    <toolkit:MenuItem Header="Open"
+                                            Command="{Binding Main.OpenDeviceBookmarkCommand, Source={StaticResource Locator}}"
+                                            CommandParameter="{Binding}"/>
+                                    <toolkit:MenuItem Header="Edit"
+                                            Command="{Binding Main.EditDeviceBookmarkCommand, Source={StaticResource Locator}}"
+                                            CommandParameter="{Binding}"/>
+                                    <toolkit:MenuItem Header="Delete"
+                                            Command="{Binding Main.DeleteDeviceBookmarkCommand, Source={StaticResource Locator}}"
+                                            CommandParameter="{Binding}"/>
+                                    <toolkit:MenuItem Header="Email" 
+                                            Command="{Binding Main.EmailLinkCommand, Source={StaticResource Locator}}"
+                                            CommandParameter="{Binding}"/>
+                                </toolkit:ContextMenu>
+                            </toolkit:ContextMenuService.ContextMenu>
+							<TextBlock Text="{Binding Title}" Margin="12,0" VerticalAlignment="Top" Style="{StaticResource PhoneTextLargeStyle}"/>
+							<TextBlock Text="{Binding Url}" Style="{StaticResource PhoneTextAccentStyle}" Margin="12,-6,12,0"/>	
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <!-- Hidden Sign-In Button to help out with Signin -->
+        <my:SignInButton Content="Button" x:Name="SignInButton" ClientId="{StaticResource LiveConnectClientId}" Scopes="{StaticResource LiveConnectScopes}" SessionChanged="SignInButton_SessionChanged" Branding="Skydrive" Visibility="Collapsed"/>
+    </Grid>
+    <bar:Bindable.ApplicationBar>
+        <bar:BindableApplicationBar Opacity="0.10">
+            <bar:BindableApplicationBar.MenuItems>
+                <bar:BindableApplicationBarMenuItem
+                    Text="sync settings"
+                    Command="{Binding SkyDriveSettingsCommmand}"/>
+                <bar:BindableApplicationBarMenuItem
+                    Text="about"
+                    Command="{Binding AboutPageCommand}"/>
+                <bar:BindableApplicationBarMenuItem
+                    Text="donate..."
+                    Command="{Binding DonateCommand}"/>
+            </bar:BindableApplicationBar.MenuItems>
+            <bar:BindableApplicationBarButton
+                Text="add"
+                IconUri="/icons/appbar.add.rest.png"
+                Command="{Binding AddDeviceBookmarkCommand}" />
+            <bar:BindableApplicationBarButton
+                Text="refresh"
+                IconUri="/icons/appbar.refresh.rest.png"
+                Command="{Binding RefreshDeviceBookmarksCommand}"/>
+            <bar:BindableApplicationBarButton
+                Text="import"
+                IconUri="/icons/appbar.download.rest.png"
+                Command="{Binding ImportBookmarksCommand}" />
+            <bar:BindableApplicationBarButton
+                Text="cloud sync"
+                IconUri="/icons/appbar.cloudsync.rest.png"
+                Command="{Binding CloudSyncCommand}" />
+        </bar:BindableApplicationBar>
+    </bar:Bindable.ApplicationBar>
+
+</phone:PhoneApplicationPage>
